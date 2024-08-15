@@ -8,13 +8,23 @@ import "./App.css";
 // 5. 현재 위치 버튼을 누르면 다시 현재 위치 기반의 날씨가 나온다
 // 6. 데이터를 들고오는동안 로딩 스피너가 돈다
 
+const API_KEY = "c1d4978c51d55df7b0df6aa7961250d9";
+
 function App() {
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
       console.log("현재 위치 :", lat, lon);
+      getWeatherByCurrentLocation(lat, lon);
     });
+  };
+
+  const getWeatherByCurrentLocation = async (lat, lon) => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    let response = await fetch(url);
+    let data = await response.json();
+    console.log("data :", data);
   };
 
   useEffect(() => {
