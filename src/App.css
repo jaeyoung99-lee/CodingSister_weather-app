@@ -36,3 +36,19 @@ body {
   justify-content: center;
   gap: 5px;
 }
+
+.button-box button {
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.button-box button:active {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.button-box button:hover {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
