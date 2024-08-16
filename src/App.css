@@ -1,0 +1,33 @@
+body {
+  background: url(https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?cs=srgb&dl=pexels-jplenio-1118873.jpg&fm=jpg);
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.weather-box {
+  border: 3px solid rgba(255, 0, 0, 0.7);
+  padding: 60px;
+  color: yellow;
+  border-radius: 40px;
+  background-color: rgba(255, 192, 203, 0.5);
+}
+
+.button-box {
+  margin-top: 10px;
+  border: 3px solid rgba(0, 0, 255, 0.7);
+  padding: 15px;
+  border-radius: 30px;
+  background-color: rgba(135, 206, 235, 0.5);
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
