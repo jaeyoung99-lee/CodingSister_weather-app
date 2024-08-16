@@ -17,6 +17,7 @@ const WeatherBox = ({ weather }) => {
       <h3>
         <img
           src={`https://openweathermap.org/img/wn/${weather?.weather[0].icon}@2x.png`}
+          alt=""
         />
         <br />
         {weather?.weather[0].description}
