@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import WeatherBox from "./component/WeatherBox";
@@ -20,14 +20,14 @@ function App() {
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false); // 로딩 스피너
 
-  const getCurrentLocation = () => {
+  const getCurrentLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
       console.log("현재 위치 :", lat, lon);
       getWeatherByCurrentLocation(lat, lon);
     });
-  };
+  }, []);
 
   const getWeatherByCurrentLocation = async (lat, lon) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`;
@@ -39,7 +39,7 @@ function App() {
     setLoading(false);
   };
 
-  const getWeatherByCity = async () => {
+  const getWeatherByCity = useCallback(async () => {
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=kr`;
     setLoading(true);
     let response = await fetch(url);
@@ -47,7 +47,7 @@ function App() {
     console.log("city data :", cityData);
     setWeather(cityData);
     setLoading(false);
-  };
+  }, [city]);
 
   useEffect(() => {
     if (city === "") {
@@ -58,7 +58,7 @@ function App() {
       console.log("city :", city);
       getWeatherByCity();
     }
-  }, [city]);
+  }, [city, getCurrentLocation, getWeatherByCity]);
 
   return (
     <div>
