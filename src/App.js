@@ -15,7 +15,8 @@ const API_KEY = "c1d4978c51d55df7b0df6aa7961250d9";
 
 function App() {
   const [weather, setWeather] = useState(null);
-  const cities = ["Seoul", "Gyeonggi", "Busan", "NewYork"];
+  const cities = ["Seoul", "Gyeonggi-do", "Busan", "New York"];
+  const [city, setCity] = useState("");
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -34,15 +35,30 @@ function App() {
     setWeather(data);
   };
 
+  const getWeatherByCity = async () => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=kr`;
+    let response = await fetch(url);
+    let cityData = await response.json();
+    console.log("city data :", cityData);
+    setWeather(cityData);
+  };
+
   useEffect(() => {
-    getCurrentLocation();
-  }, []);
+    if (city == "") {
+      getCurrentLocation();
+    } else {
+      // 버튼 눌렀을 때 버튼에 해당하는 city가 잘 나오는지 확인
+      // city state를 주시하고 있다가 city state 값이 바뀌는 순간 실행
+      console.log("city :", city);
+      getWeatherByCity();
+    }
+  }, [city]);
 
   return (
     <div>
       <div className="container">
         <WeatherBox weather={weather} />
-        <WeatherButton cities={cities} />
+        <WeatherButton cities={cities} setCity={setCity} />
       </div>
     </div>
   );
