@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import WeatherBox from "./component/WeatherBox";
@@ -14,6 +14,8 @@ import WeatherButton from "./component/WeatherButton";
 const API_KEY = "c1d4978c51d55df7b0df6aa7961250d9";
 
 function App() {
+  const [weather, setWeather] = useState(null);
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -24,10 +26,11 @@ function App() {
   };
 
   const getWeatherByCurrentLocation = async (lat, lon) => {
-    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`;
     let response = await fetch(url);
     let data = await response.json();
     console.log("data :", data);
+    setWeather(data);
   };
 
   useEffect(() => {
@@ -37,7 +40,7 @@ function App() {
   return (
     <div>
       <div className="container">
-        <WeatherBox />
+        <WeatherBox weather={weather} />
         <WeatherButton />
       </div>
     </div>
