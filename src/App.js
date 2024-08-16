@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import WeatherBox from "./component/WeatherBox";
@@ -18,14 +18,14 @@ function App() {
   const cities = ["Seoul", "Gyeonggi-do", "Busan", "New York"];
   const [city, setCity] = useState("");
 
-  const getCurrentLocation = () => {
+  const getCurrentLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
       console.log("현재 위치 :", lat, lon);
       getWeatherByCurrentLocation(lat, lon);
     });
-  };
+  }, []);
 
   const getWeatherByCurrentLocation = async (lat, lon) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`;
@@ -44,7 +44,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (city == "") {
+    if (city === "") {
       getCurrentLocation();
     } else {
       // 버튼 눌렀을 때 버튼에 해당하는 city가 잘 나오는지 확인
@@ -52,7 +52,7 @@ function App() {
       console.log("city :", city);
       getWeatherByCity();
     }
-  }, [city]);
+  }, [city, getCurrentLocation, getWeatherByCity]);
 
   return (
     <div>
