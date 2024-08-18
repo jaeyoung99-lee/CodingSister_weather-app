@@ -57,13 +57,14 @@ function App() {
     setLoading(true);
     try {
       let response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("입력한 도시의 날씨 정보를 찾을 수 없습니다.");
+      }
       let cityData = await response.json();
       console.log("city data :", cityData);
       setWeather(cityData);
     } catch (error) {
-      setErrorMessage(
-        "입력한 도시의 날씨 정보를 찾을 수 없습니다." + error.message
-      );
+      setErrorMessage(error.message);
       setShowError(true);
     } finally {
       setLoading(false);
